@@ -7,14 +7,14 @@
     <h6>Enter Details</h6>
   </div>
   <hr>
-  <form>
 
+  <form [formGroup]="sellCar" (ngSubmit)="submitHandler()">
     <div class="row">
       <div class="col">
         <mat-form-field class="select-width">
           <mat-label>Manufacturer</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let man of manufacturer" [value]="man">
+          <mat-select formControlName='manufacture'>
+            <mat-option *ngFor="let man of manufacturer" [value]="man" >
               {{man}}
             </mat-option>
           </mat-select>
@@ -24,8 +24,8 @@
       <div class="col">
         <mat-form-field class="select-width">
           <mat-label>Condition</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let condition of conditions" [value]="condition">
+          <mat-select formControlName="cond">
+            <mat-option *ngFor="let condition of conditions" [value]="condition" >
               {{condition}}
             </mat-option>
           </mat-select>
@@ -35,8 +35,8 @@
       <div class="col">
         <mat-form-field class="select-width">
           <mat-label>Cylinders</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let cylinder of cylinders" [value]="cylinder">
+          <mat-select formControlName="cyl">
+            <mat-option *ngFor="let cylinder of cylinders" [value]="cylinder" >
               {{cylinder}}
             </mat-option>
           </mat-select>
@@ -49,8 +49,8 @@
       <div class="col">
         <mat-form-field class="select-width">
           <mat-label>Fuel</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let fuel of fuelType" [value]="fuel">
+          <mat-select formControlName="fl">
+            <mat-option *ngFor="let fuel of fuelType" [value]="fuel" >
               {{fuel}}
             </mat-option>
           </mat-select>
@@ -58,14 +58,14 @@
       </div>
       <div class="col">
         <mat-form-field class="select-width">
-          <input matInput placeholder="Odometer (Miles)">
+          <input matInput placeholder="Odometer (Miles)" formControlName="dist">
         </mat-form-field>
       </div>
       <div class="col">
         <mat-form-field class="select-width">
           <mat-label>Transmission</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let trans of transmission" [value]="trans">
+          <mat-select formControlName="transs">
+            <mat-option *ngFor="let trans of transmission" [value]="trans" >
               {{trans}}
             </mat-option>
           </mat-select>
@@ -77,8 +77,8 @@
       <div class="col">
         <mat-form-field class="select-width">
           <mat-label>Drive</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let drv of drive" [value]="drv">
+          <mat-select formControlName="driveType">
+            <mat-option *ngFor="let drv of drive" [value]="drv" >
               {{drv}}
             </mat-option>
           </mat-select>
@@ -86,7 +86,7 @@
       </div>
       <div class="col">
         <mat-form-field>
-          <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date">
+          <input matInput [matDatepicker]="dp" placeholder="Month and Year" [formControl]="date" formControlName="dateSelected">
           <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
           <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
             (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
@@ -96,8 +96,8 @@
       <div class="col">
         <mat-form-field class="select-width">
           <mat-label>Type</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let type of types" [value]="type">
+          <mat-select formControlName="carType">
+            <mat-option *ngFor="let type of types" [value]="type" >
               {{type}}
             </mat-option>
           </mat-select>
@@ -108,11 +108,11 @@
     <div class="row">
       <div class="col">
         <mat-form-field style="width: 100%">
-          <textarea matInput placeholder="Description"></textarea>
+          <textarea matInput placeholder="Description" formControlName="text"></textarea>
         </mat-form-field>
       </div>
     </div>
-    <button mat-flat-button color="primary" class="float-right">Submit</button>
+    <button mat-flat-button color="primary" type="submit" class="float-right" [disabled]="sellCar.invalid" (click)="openDialog()">Submit</button>
   </form>
 
 </div>

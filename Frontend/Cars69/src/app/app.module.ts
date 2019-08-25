@@ -11,10 +11,12 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 
 import { AppComponent } from './app.component';
-import { SellCarComponent } from './sell-car/sell-car.component';
+import { SellCarComponent, Dialog } from './sell-car/sell-car.component';
 import { BuyCarComponent } from './buy-car/buy-car.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     SellCarComponent,
     BuyCarComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    Dialog
   ],
   imports: [
     BrowserModule,
@@ -50,10 +53,12 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
+    MatDialogModule,
  ReactiveFormsModule, FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [Dialog]
 })
 export class AppModule { }
