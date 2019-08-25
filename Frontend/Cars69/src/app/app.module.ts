@@ -6,9 +6,11 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { RouterModule, Routes } from '@angular/router';
-
-
-
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -42,8 +44,13 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatMenuModule,
     MatToolbarModule,
+    MatSelectModule,
+    MatInputModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatButtonModule,
+ ReactiveFormsModule, FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],
