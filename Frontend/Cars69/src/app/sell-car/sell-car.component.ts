@@ -16,6 +16,7 @@ import * as moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SellDialogComponent } from '../sell-dialog/sell-dialog.component';
 
 export interface DialogData {
   animal: string;
@@ -67,7 +68,7 @@ export class SellCarComponent implements OnInit {
   constructor(private fb: FormBuilder, public dialog: MatDialog) {}
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(Dialog, {
+    const dialogRef = this.dialog.open(SellDialogComponent, {
       width: '250px',
       data: {name: 'tushar', animal: 'yay'}
     });
@@ -88,7 +89,6 @@ export class SellCarComponent implements OnInit {
       dist: [ '', Validators.required],
       transs: [[], Validators.required],
       driveType: [[], Validators.required],
-      dateSelected: '',
       carType: [[], Validators.required],
       text: ['', Validators.required]
 
@@ -123,23 +123,9 @@ export class SellCarComponent implements OnInit {
   }
 
   submitHandler(){
-    console.log("submitted")
+    console.log(this.sellCar.value)
+    console.log(this.date.value)
   }
 
 }
 
-@Component({
-  selector: 'dialog',
-  templateUrl: 'dialog.html',
-})
-export class Dialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<Dialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-}

@@ -15,11 +15,13 @@ import {MatDialogModule} from '@angular/material/dialog';
 
 
 
+
 import { AppComponent } from './app.component';
-import { SellCarComponent, Dialog } from './sell-car/sell-car.component';
+import { SellCarComponent } from './sell-car/sell-car.component';
 import { BuyCarComponent } from './buy-car/buy-car.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
+import { SellDialogComponent } from './sell-dialog/sell-dialog.component';
 
 const appRoutes: Routes = [
   { path: 'buy',
@@ -40,7 +42,7 @@ const appRoutes: Routes = [
     BuyCarComponent,
     NavbarComponent,
     HomeComponent,
-    Dialog
+    SellDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +61,6 @@ const appRoutes: Routes = [
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [Dialog]
+  entryComponents: [SellDialogComponent]
 })
 export class AppModule { }
