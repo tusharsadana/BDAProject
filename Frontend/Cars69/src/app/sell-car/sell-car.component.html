@@ -8,7 +8,7 @@
   </div>
   <hr>
 
-  <form [formGroup]="sellCar" (ngSubmit)="submitHandler()">
+  <form [formGroup]="sellCar" (ngSubmit)="submitHandler()" *ngIf="show">
     <div class="row">
       <div class="col">
         <mat-form-field class="select-width">

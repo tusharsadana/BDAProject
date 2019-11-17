@@ -17,6 +17,8 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SellDialogComponent } from '../sell-dialog/sell-dialog.component';
+import { PostService } from '../services/post.service';
+
 
 export interface DialogData {
   animal: string;
@@ -63,9 +65,9 @@ export class SellCarComponent implements OnInit {
   drive: string[];
   types:string[];
   text: '';  
+  show = false;
 
-
-  constructor(private fb: FormBuilder, public dialog: MatDialog) {}
+  constructor(private fb: FormBuilder, public dialog: MatDialog, private postService: PostService) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(SellDialogComponent, {
@@ -94,17 +96,20 @@ export class SellCarComponent implements OnInit {
 
     });
 
-    this.manufacturer = ['a'];
-    this.conditions = ['a'];
-    this.cylinders = ['a'];
-    this.fuelType = ['a'];
-    this.transmission = ['a'];
-    this.drive = ['a'];
-    this.types = ['a'];
-    
+    this.postService.getOptions().subscribe(res => {
+      console.log(res)
+      this.manufacturer = res['manufacturer'];
+      this.conditions = res['condition'];
+      this.cylinders = res['cylinders'];
+      this.fuelType = res['fuel'];
+      this.transmission = res['transmission'];
+      this.drive = res['drive'];
+      this.types = res['type'];
+      this.show = true;
 
-  
+    }, err => {
 
+    });
   }
 
   date = new FormControl(moment());
@@ -123,8 +128,14 @@ export class SellCarComponent implements OnInit {
   }
 
   submitHandler(){
-    console.log(this.sellCar.value)
-    console.log(this.date.value)
+    var date = new Date(this.date.value).getFullYear();
+    this.sellCar.value['date'] = date;
+    this.postService.getPrice(this.sellCar.value).subscribe(res => {
+      console.log(res)
+
+    }, err =>{
+
+    });
   }
 
 }

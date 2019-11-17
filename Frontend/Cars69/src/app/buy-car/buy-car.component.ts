@@ -18,6 +18,7 @@ export class BuyCarComponent implements OnInit {
   types:string[];
   years: string[];  
   colors: string[];
+  items: any;
 
 
   constructor(private fb: FormBuilder) { }
@@ -46,6 +47,7 @@ export class BuyCarComponent implements OnInit {
     this.types = ['a'];
     this.years = ['a']
     this.colors = ['a'];    
+    this.items = [{'title': 'A'}, {'title': 'B'}]
 
   }
 

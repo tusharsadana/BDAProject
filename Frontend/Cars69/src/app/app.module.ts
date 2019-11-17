@@ -22,6 +22,7 @@ import { BuyCarComponent } from './buy-car/buy-car.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { SellDialogComponent } from './sell-dialog/sell-dialog.component';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   { path: 'buy',
@@ -55,6 +56,7 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
+    HttpClientModule,
     MatDialogModule,
  ReactiveFormsModule, FormsModule,
     RouterModule.forRoot(appRoutes)
