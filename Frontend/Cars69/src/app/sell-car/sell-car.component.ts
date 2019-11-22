@@ -66,13 +66,14 @@ export class SellCarComponent implements OnInit {
   types:string[];
   text: '';  
   show = false;
+  answerDialog:any;
 
   constructor(private fb: FormBuilder, public dialog: MatDialog, private postService: PostService) {}
 
-  openDialog(): void {
+  openDialog(answer): void {
     const dialogRef = this.dialog.open(SellDialogComponent, {
       width: '250px',
-      data: {name: 'tushar', animal: 'yay'}
+      data: answer
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -132,6 +133,8 @@ export class SellCarComponent implements OnInit {
     this.sellCar.value['date'] = date;
     this.postService.getPrice(this.sellCar.value).subscribe(res => {
       console.log(res)
+      this.answerDialog = res;
+      this.openDialog(this.answerDialog);
 
     }, err =>{
 

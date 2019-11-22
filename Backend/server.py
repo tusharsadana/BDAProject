@@ -2,8 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from model import *
 import pandas as pd
-from keras import backend as K
-import tensorflow as tf
 
 
 
@@ -11,30 +9,15 @@ app = Flask(__name__)
 
 CORS(app)  # allow cross origin
 
-global graph
-global sess
-sess = tf.Session()
-graph = tf.get_default_graph() 
-
-
 vehicles_df = load_dataset()
 vehicles_df = clean_dataset(vehicles_df)
 X, y = preprocess(vehicles_df)
 X, y, label, scaler, onehot = encoding(X,y)
 x_train, x_test, y_train, y_test = train_test_split(X,y, test_size =0.2, random_state = 0)
 
-NN_model = Sequential()
-NN_model.add(Dense(128, kernel_initializer='normal',input_dim = x_train.shape[1], activation='relu'))
-NN_model.add(Dense(256, kernel_initializer='normal',activation='relu'))
-NN_model.add(Dense(256, kernel_initializer='normal',activation='relu'))
-NN_model.add(Dense(256, kernel_initializer='normal',activation='relu'))
-NN_model.add(Dense(1, kernel_initializer='normal',activation='linear'))
-NN_model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
-NN_model.summary()
-wights_file = "Weights-635--2260.41234.hdf5" # choose the best checkpoint 
-NN_model.load_weights(wights_file)
-# K.clear_session()
-NN_model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
+
+
+
 # loadWeight(  )
 # model = model_creation()
 # callbacks = create_checkpoint()  
@@ -78,21 +61,20 @@ def predictions(content):
     value = onehot[6].transform(value).toarray()
     value = np.delete(value, 0, 1)
 
-    # answer = prediction(model, value)
-    # NN_model._make_predict_function()
-    # answer = model.predict(value)
-    return value
+    model = model_creation()
+    model = load_model('regression.sav')
+
+    answer = model.predict(value)
+    print(answer)
+
+    return answer[0][0]
 
 @app.route("/getprice", methods=["GET", "POST"])
 def catch_all():
     content = request.json
     test = predictions(content)
-    print(test)
-    with graph.as_default():
-        K.set_session(sess)
-        answer = NN_model.predict(test)
-    print(answer)
-    return jsonify({'ans': 'return'})
+    
+    return jsonify({'ans': test})
 
 @app.route("/options",  methods=["GET"])
 def options():

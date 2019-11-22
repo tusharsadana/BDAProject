@@ -8,9 +8,10 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
-from keras.callbacks import ModelCheckpoint
-from keras.models import Sequential
-from keras.layers import Dense, Activation, Flatten
+from sklearn.linear_model import LinearRegression
+import pickle
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.preprocessing import PolynomialFeatures
 
 
 
@@ -131,50 +132,90 @@ def encoding(X, y):
     return X, y, label, scaler, onehot
 
 
+def model_creation():
+     regressor = LinearRegression()
+     return regressor
+
+def model_poly():
+     poly_features = PolynomialFeatures(degree=2)
+     return poly_features
+
+def fit_poly(poly, x, y):
+       x_poly = poly.fit_transform(x)
+       poly_model = LinearRegression()
+       poly_model.fit(x_poly, y)
+       return poly_model
 
 
-def model_creation(shape):
-    print(shape)
-    NN_model = Sequential()
-    
-    NN_model.add(Dense(128, kernel_initializer='normal',input_dim = shape, activation='relu'))
-    NN_model.add(Dense(256, kernel_initializer='normal',activation='relu'))
-    NN_model.add(Dense(256, kernel_initializer='normal',activation='relu'))
-    NN_model.add(Dense(256, kernel_initializer='normal',activation='relu'))
-    NN_model.add(Dense(1, kernel_initializer='normal',activation='linear'))
 
-    NN_model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
-    NN_model.summary()
-    
-    return NN_model
-
-def create_checkpoint():
-    checkpoint_name = 'Weights-{epoch:03d}--{val_loss:.5f}.hdf5' 
-    checkpoint = ModelCheckpoint(checkpoint_name, monitor='val_loss', verbose = 1, save_best_only = True, mode ='auto')
-    callbacks_list = [checkpoint]
-    return callbacks_list
-
-def fitModel(model, x_train, y_train, callbacks, epochs = 700, batch_size = 32, validation_split = 0.2):
-    model.fit(x_train, y_train, epochs = epochs, batch_size=batch_size, validation_split = validation_split, callbacks = callbacks)
-    return model
-
-def loadWeight( name = 'Weights-1357--2238.69423.hdf5'):
-    wights_file = name # choose the best checkpoint 
-    model.load_weights(wights_file) # load it
-    model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
-    return model
-    
-def prediction(value):
-     pass
+def fit_model(regressor, x, y):
+     return regressor.fit(x, y)
      
+def model_save_weights(regressor):
+     filename= "regression.sav"
+     pickle.dump(regressor, open(filename, 'wb'))
+
+def load_model(filename):
+     load_lr_model =pickle.load(open(filename, 'rb'))
+     return load_lr_model
+
+
+
+
+
+
+# def model_creation(shape):
+#     print(shape)
+#     NN_model = Sequential()
+    
+#     NN_model.add(Dense(128, kernel_initializer='normal',input_dim = shape, activation='relu'))
+#     NN_model.add(Dense(256, kernel_initializer='normal',activation='relu'))
+#     NN_model.add(Dense(256, kernel_initializer='normal',activation='relu'))
+#     NN_model.add(Dense(256, kernel_initializer='normal',activation='relu'))
+#     NN_model.add(Dense(1, kernel_initializer='normal',activation='linear'))
+
+#     NN_model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
+#     NN_model.summary()
+    
+#     return NN_model
+
+# def create_checkpoint():
+#     checkpoint_name = 'Weights-{epoch:03d}--{val_loss:.5f}.hdf5' 
+#     checkpoint = ModelCheckpoint(checkpoint_name, monitor='val_loss', verbose = 1, save_best_only = True, mode ='auto')
+#     callbacks_list = [checkpoint]
+#     return callbacks_list
+
+# def fitModel(model, x_train, y_train, callbacks, epochs = 700, batch_size = 32, validation_split = 0.2):
+#     model.fit(x_train, y_train, epochs = epochs, batch_size=batch_size, validation_split = validation_split, callbacks = callbacks)
+#     return model
+
+# def loadWeight( name = 'Weights-1357--2238.69423.hdf5'):
+#     wights_file = name # choose the best checkpoint 
+#     model.load_weights(wights_file) # load it
+#     model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
+#     return model
+    
+
  
 # vehicles_df = load_dataset()
 # vehicles_df.info()
 # vehicles_df.head()
 # vehicles_df = clean_dataset(vehicles_df)
 # X, y = preprocess(vehicles_df)
-# X, y = encoding(X, y)
+# X, y, label, scaler, onehot = encoding(X, y)
 # x_train, x_test, y_train, y_test = train_test_split(X,y, test_size =0.2, random_state = 0)
+# regressor = model_creation()
+# regressor = load_model('regression.sav')
+# model_save_weights(regressor)
+# y_ans = regressor.predict(x_test)
+# print(y_ans)
+# print(r2_score(y_test, y_ans))
+
+# poly_features = model_poly()
+# poly_regressor = fit_poly(poly_features, x_train, y_train)
+# y_poly = poly_regressor.predict(poly_features.fit_transform(x_test))
+# print(r2_score(y_test, y_poly))
+# print(y_poly)
 # model = model_creation()
 # callbacks = create_checkpoint()  
 # #fitModel(x_train, y_train, callbacks = callbacks)  
