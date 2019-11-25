@@ -42,11 +42,12 @@ def clean_dataset(vehicles_df):
 
     vehicles_df = vehicles_df[vehicles_df.year > 1985]
 
+    plt.figure(figsize=(3,6))
+    sns.boxplot(y='odometer', data=vehicles_df);
+
     vehicles_df.odometer.quantile(.999)
     vehicles_df = vehicles_df[~(vehicles_df.odometer > 500000)]
     
-    plt.figure(figsize=(3,6))
-    sns.boxplot(y='odometer', data=vehicles_df);
     
     sns.set(style="ticks", color_codes=True)
     sns.pairplot(vehicles_df, hue="condition")
@@ -124,6 +125,7 @@ def encoding(X, y):
     onehotencoder_7 = OneHotEncoder(categorical_features = [-1])
     X = onehotencoder_7.fit_transform(X).toarray()
     X = np.delete(X, 0, 1)
+    
 
     label = [labelencoder_X_1, labelencoder_X_2, labelencoder_X_3, labelencoder_X_4, labelencoder_X_5, labelencoder_X_6]
     scaler = [scaler_1, scaler_2]

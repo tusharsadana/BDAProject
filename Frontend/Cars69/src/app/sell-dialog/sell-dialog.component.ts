@@ -26,7 +26,11 @@ export class SellDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data) {
     this.description = data['ans'];
     this.initial = Math.round(this.description - (this.description*0.05)) 
-    this.final = Math.round(this.description  + (this.description*0.05))
+    this.final = Math.round(this.description  + (this.description*0.05)) 
+    if(this.initial <= 100 || this.final <= 100){
+      this.initial = "We cannot sell this"
+      this.final = "car"
+    }
 
   }
 
